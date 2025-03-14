@@ -1,0 +1,26 @@
+{
+  "name": "space-shooter",
+  "version": "1.0.0",
+  "description": "Space Ship Game ",
+  "main": "space-shooter.html",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BiranOrundas/space-shooter.git"
+  },
+  "keywords": [
+    "space_shooter"
+  ],
+  "author": "Biran Orundaş",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BiranOrundas/space-shooter/issues"
+  },
+  "homepage": "https://github.com/BiranOrundas/space-shooter#readme",
+  "devDependencies": {
+    "electron": "^35.0.1",
+    "electron-packager": "^17.1.2"
+  }
+}

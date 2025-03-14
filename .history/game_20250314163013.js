@@ -41,7 +41,6 @@ let upPressed = false;
 let downPressed = false;
 let shootPressed = false;
 let boostPressed = false;
-let bulletPowerUpActive = false; // Bullet boost aktif mi?
 
 // Generate stars for background
 function createStars() {
@@ -93,10 +92,10 @@ function shootBullet() {
     bullets.push({
       x: player.x + player.width / 2 - 3,
       y: player.y,
-      width: bulletPowerUpActive ? 200 : 3,
+      width: 3,
       height: 10,
       speed: 17,   
-      color: bulletPowerUpActive ? "#00FF00" : "#f00"
+      color: '#f00'
     });
     player.lastShot = now;
   }
@@ -353,30 +352,33 @@ for (let j = 0; j < bullets.length; j++) {
   // Global variable to track if the bullet height has been changed
 let bulletHeightUpdated = false;
 
-function activateBulletPowerUp() {
-  bulletPowerUpActive = true;
+let scorediv = document.getElementById("score");
 
-  let scoreDiv = document.getElementById("score");
-  scoreDiv.style.color = "#0f0"; // Skor yeşil olur
-
-  console.log("Bullet Power-Up Aktif! 10 saniye sürecek.");
-
-  // 10 saniye sonra bullet özelliklerini eski haline getir
-  setTimeout(() => {
-    bulletPowerUpActive = false;
-    scoreDiv.style.color = "#fff"; // Skor rengi eski haline dönsün
-    console.log("Bullet Power-Up Süresi Bitti!");
-  }, 10000);
+// Inside the game loop or where you check the score
+if (score >= 100 && !bulletHeightUpdated) {
+bulletHeightUpdated = true;
+Bonus()
+return
 }
 
-// Update score display
-function updateScore() {
-  document.getElementById('score').textContent = `Score: ${score}`;
-  if (score >= 5000 && score <= 6300 && !bulletPowerUpActive) {
-    activateBulletPowerUp(); // Bullet yükseltmesini başlat
-  }
-}
+function Bonus() {
+  let counter = 0; // Geçen süreyi takip eder
+  const interval = setInterval(() => {
+    console.log(`Çalışıyor... Geçen süre: ${counter + 1} saniye`);
+    counter++;
+    bullets.forEach(bullet => {
+      bullet.width = 100;
+      bullet.color = "#00FF00"
+      scorediv.style.color = "#0f0"
+  
+  });
 
+    if (counter >= 10) { // 10 saniye dolduğunda dur
+      clearInterval(interval);
+      console.log("Fonksiyon tamamlandı!");
+    }
+  }, 1000); // Her saniye bir kere çalıştır
+}
     // Remove enemy and bullet
     enemies.splice(i, 1);
     bullets.splice(j, 1);
@@ -394,30 +396,8 @@ if (enemies[i] && enemies[i].y > canvas.height) {
 }
 
 
-function Day() { 
-const space = document.getElementById("game-container");  
 
-setTimeout((randomColor) => {     
-    var randomColor = Math.floor(Math.random()*16777215).toString(16);   
-    space.style.backgroundColor = randomColor;        
-},5500);
-}
 
-function runForTenSeconds() {
-  let counter = 0; // Geçen süreyi takip eder
-  const interval = setInterval(() => {
-    console.log(`Çalışıyor... Geçen süre: ${counter + 1} saniye`);
-    counter++;
-
-    if (counter >= 10) { // 10 saniye dolduğunda dur
-      clearInterval(interval);
-      console.log("Fonksiyon tamamlandı!");
-    }
-  }, 1000); // Her saniye bir kere çalıştır
-}
-
-// Fonksiyonu başlat
-runForTenSeconds();
 
 // Update life bar
 function updateLifeBar() {
@@ -470,6 +450,10 @@ function lifeUp() {
 }
 
 
+// Update score display
+function updateScore() {
+  document.getElementById('score').textContent = `Score: ${score}`;
+}
 
 
 
@@ -505,7 +489,7 @@ function gameLoop() {
 //   }
 
     //Space Turning
-  Day();
+  
   lifeUp();
   // Draw stars
   drawStars();

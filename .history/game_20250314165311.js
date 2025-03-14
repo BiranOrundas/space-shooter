@@ -366,13 +366,13 @@ function activateBulletPowerUp() {
     bulletPowerUpActive = false;
     scoreDiv.style.color = "#fff"; // Skor rengi eski haline dönsün
     console.log("Bullet Power-Up Süresi Bitti!");
-  }, 10000);
+  }, 1000);
 }
 
 // Update score display
 function updateScore() {
   document.getElementById('score').textContent = `Score: ${score}`;
-  if (score >= 5000 && score <= 6300 && !bulletPowerUpActive) {
+  if (score >= 1000 && !bulletPowerUpActive) {
     activateBulletPowerUp(); // Bullet yükseltmesini başlat
   }
 }

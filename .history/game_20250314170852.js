@@ -479,7 +479,7 @@ function endGame() {
   document.getElementById('game-over').style.display = 'flex';
   document.getElementById('final-score').textContent = `Score: ${score}`;
   let menu = document.getElementById('menu-screen')
-  menu.style.display = 'block'
+  menu.style.display = 'none'
   cancelAnimationFrame(animationId);  
 
   if(menu.style.display === 'block') {

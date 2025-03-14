@@ -41,7 +41,6 @@ let upPressed = false;
 let downPressed = false;
 let shootPressed = false;
 let boostPressed = false;
-let bulletPowerUpActive = false; // Bullet boost aktif mi?
 
 // Generate stars for background
 function createStars() {
@@ -93,10 +92,10 @@ function shootBullet() {
     bullets.push({
       x: player.x + player.width / 2 - 3,
       y: player.y,
-      width: bulletPowerUpActive ? 200 : 3,
+      width: 2,
       height: 10,
-      speed: 17,   
-      color: bulletPowerUpActive ? "#00FF00" : "#f00"
+      speed: 15,   
+      color: '#f00'
     });
     player.lastShot = now;
   }
@@ -353,30 +352,17 @@ for (let j = 0; j < bullets.length; j++) {
   // Global variable to track if the bullet height has been changed
 let bulletHeightUpdated = false;
 
-function activateBulletPowerUp() {
-  bulletPowerUpActive = true;
+// Inside the game loop or where you check the score
+if (score >= 100 && !bulletHeightUpdated) {
+// Set the bullet height to 100
+bullets.forEach(bullet => {
+    bullet.height = 100;
+    bullet.color = "#00FF00"
+});
 
-  let scoreDiv = document.getElementById("score");
-  scoreDiv.style.color = "#0f0"; // Skor yeşil olur
-
-  console.log("Bullet Power-Up Aktif! 10 saniye sürecek.");
-
-  // 10 saniye sonra bullet özelliklerini eski haline getir
-  setTimeout(() => {
-    bulletPowerUpActive = false;
-    scoreDiv.style.color = "#fff"; // Skor rengi eski haline dönsün
-    console.log("Bullet Power-Up Süresi Bitti!");
-  }, 10000);
+// Mark the bullet height as updated
+bulletHeightUpdated = true;
 }
-
-// Update score display
-function updateScore() {
-  document.getElementById('score').textContent = `Score: ${score}`;
-  if (score >= 5000 && score <= 6300 && !bulletPowerUpActive) {
-    activateBulletPowerUp(); // Bullet yükseltmesini başlat
-  }
-}
-
     // Remove enemy and bullet
     enemies.splice(i, 1);
     bullets.splice(j, 1);
@@ -403,34 +389,17 @@ setTimeout((randomColor) => {
 },5500);
 }
 
-function runForTenSeconds() {
-  let counter = 0; // Geçen süreyi takip eder
-  const interval = setInterval(() => {
-    console.log(`Çalışıyor... Geçen süre: ${counter + 1} saniye`);
-    counter++;
-
-    if (counter >= 10) { // 10 saniye dolduğunda dur
-      clearInterval(interval);
-      console.log("Fonksiyon tamamlandı!");
-    }
-  }, 1000); // Her saniye bir kere çalıştır
-}
-
-// Fonksiyonu başlat
-runForTenSeconds();
 
 // Update life bar
 function updateLifeBar() {
   const lifeBar = document.getElementById('life-bar');
   lifeBar.style.width = `${player.life}%`; // Life bar genişliği oyuncunun hayatına göre ayarlanır
-
-  // 🔹 Sadece 1 ondalık basamak göstermek için `toFixed(1)` ekledik
-  lifeBar.innerHTML = ` ${player.life.toFixed(1)}`;
+  lifeBar.innerHTML = ` ${player.life}`;
 
   // Hayat durumuna göre renk değiştir
   if (player.life > 80) {
     lifeBar.style.backgroundColor = '#7CFC00'; // Yeşil
-    lifeBar.style.color = '#fff'; 
+    lifeBar.style.color = '#fff'; // Yeşil
   } else if (player.life > 60) {
     lifeBar.style.backgroundColor = '#FF5F1F'; // Sarı-yeşil
   } else if (player.life > 40) {
@@ -440,36 +409,45 @@ function updateLifeBar() {
   } else {
     lifeBar.style.backgroundColor = '#f00'; // Kırmızı
   }
+  
+  
 }
-
 
 function lifeUp() {
   // Eğer hayat çubuğu zaten 100'e ulaşmışsa, işlemi durdur.
   if (player.life >= 100) return;
-
 
   // Eğer daha önce bir interval başlatılmamışsa, başlat
   if (!player.lifeUpActive) {
     player.lifeUpActive = true; // Interval'in aktif olduğunu işaretle
 
     let interval = setInterval(function() {
-      if (player.life > 0 && player.life < 100) {
-        player.life += 0.1;  // Hayat çubuğunu artır
-        updateLifeBar(); // Hayat çubuğunu güncelle        
+      if (player.life > 0 ||player.life < 100) {
+        player.life += 1;  // Hayat çubuğunu artır
+        updateLifeBar(); // Hayat çubuğunu güncelle
         console.log("lifeUp çalışıyor: " + player.life); // Hangi durumda olduğunu görmek için
-      }  
-      else{      
-        player.life = Math.max(0, Math.min(player.life, 100));  
+      }else if(player.life <= 0){     
+        player.life += 0 ;
+        updateLifeBar(); // Güncelleme yap
+        return
+        
+      }          
+      else {
+        player.life = 100; // Hayat çubuğu 100'e ulaşırsa, sabit tut
         updateLifeBar(); // Güncelleme yap
         clearInterval(interval); // Interval'i temizle
         player.lifeUpActive = false; // Artış işlemi tamamlandı, flag sıfırlansın
         console.log("lifeUp durdu: " + player.life); // Durum mesajı
       }
-    }, 100); // 100ms arayla hayat artır
+    }, 500); // 100ms arayla hayat artır
   }
 }
 
 
+// Update score display
+function updateScore() {
+  document.getElementById('score').textContent = `Score: ${score}`;
+}
 
 
 

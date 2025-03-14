@@ -368,13 +368,40 @@ function activateBulletPowerUp() {
     console.log("Bullet Power-Up Süresi Bitti!");
   }, 10000);
 }
+function activateMEGABulletPowerUp() {
+  bulletPowerUpActive = true;
+
+  let scoreDiv = document.getElementById("score");
+  scoreDiv.style.color = "#0f0"; // Skor yeşil olur
+
+  console.log("Bullet Power-Up Aktif! 10 saniye sürecek.");
+
+  // 10 saniye sonra bullet özelliklerini eski haline getir
+  setTimeout(() => {
+    bulletPowerUpActive = false;
+    scoreDiv.style.color = "#f00"; // Skor rengi eski haline dönsün
+    console.log("MEGA Bullet Power-Up Süresi Bitti!");
+    bullets.forEach{ bullets =>{
+      bullet.color = "#f00";
+      bullet.width = 200;
+    }
+
+    }
+  }, 10000);
+}
 
 // Update score display
 function updateScore() {
   document.getElementById('score').textContent = `Score: ${score}`;
-  if (score >= 5000 && score <= 6300 && !bulletPowerUpActive) {
+  if (score >= 500 && score <= 1300 && !bulletPowerUpActive) {
     activateBulletPowerUp(); // Bullet yükseltmesini başlat
   }
+}
+
+if (score >=1500 && score <=1900 && !bulletPowerUpActive){
+  activateMEGABulletPowerUp(); // MEGA Bullet yükseltmesini başlat
+  
+
 }
 
     // Remove enemy and bullet

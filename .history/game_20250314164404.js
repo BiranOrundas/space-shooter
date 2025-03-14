@@ -41,7 +41,6 @@ let upPressed = false;
 let downPressed = false;
 let shootPressed = false;
 let boostPressed = false;
-let bulletPowerUpActive = false; // Bullet boost aktif mi?
 
 // Generate stars for background
 function createStars() {
@@ -353,30 +352,21 @@ for (let j = 0; j < bullets.length; j++) {
   // Global variable to track if the bullet height has been changed
 let bulletHeightUpdated = false;
 
-function activateBulletPowerUp() {
-  bulletPowerUpActive = true;
+let scorediv = document.getElementById("score");
 
-  let scoreDiv = document.getElementById("score");
-  scoreDiv.style.color = "#0f0"; // Skor yeşil olur
+// Inside the game loop or where you check the score
+if (score >= 100 && !bulletHeightUpdated) {
+// Set the bullet height to 100
+bullets.forEach(bullet => {
+    bullet.width = 100;
+    bullet.color = "#00FF00"
+    scorediv.style.color = "#0f0"
 
-  console.log("Bullet Power-Up Aktif! 10 saniye sürecek.");
+});
 
-  // 10 saniye sonra bullet özelliklerini eski haline getir
-  setTimeout(() => {
-    bulletPowerUpActive = false;
-    scoreDiv.style.color = "#fff"; // Skor rengi eski haline dönsün
-    console.log("Bullet Power-Up Süresi Bitti!");
-  }, 10000);
+// Mark the bullet height as updated
+bulletHeightUpdated = true;
 }
-
-// Update score display
-function updateScore() {
-  document.getElementById('score').textContent = `Score: ${score}`;
-  if (score >= 5000 && score <= 6300 && !bulletPowerUpActive) {
-    activateBulletPowerUp(); // Bullet yükseltmesini başlat
-  }
-}
-
     // Remove enemy and bullet
     enemies.splice(i, 1);
     bullets.splice(j, 1);
@@ -470,6 +460,10 @@ function lifeUp() {
 }
 
 
+// Update score display
+function updateScore() {
+  document.getElementById('score').textContent = `Score: ${score}`;
+}
 
 
 

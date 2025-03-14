@@ -41,7 +41,7 @@ let upPressed = false;
 let downPressed = false;
 let shootPressed = false;
 let boostPressed = false;
-let bulletPowerUpActive = false; // Bullet boost aktif mi?
+let bulletPowerUpActive = true; // Bullet boost aktif mi?
 
 // Generate stars for background
 function createStars() {
@@ -372,7 +372,7 @@ function activateBulletPowerUp() {
 // Update score display
 function updateScore() {
   document.getElementById('score').textContent = `Score: ${score}`;
-  if (score >= 5000 && score <= 6300 && !bulletPowerUpActive) {
+  if (score >= 100 && !bulletPowerUpActive) {
     activateBulletPowerUp(); // Bullet yükseltmesini başlat
   }
 }

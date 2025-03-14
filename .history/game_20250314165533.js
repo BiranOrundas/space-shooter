@@ -372,7 +372,7 @@ function activateBulletPowerUp() {
 // Update score display
 function updateScore() {
   document.getElementById('score').textContent = `Score: ${score}`;
-  if (score >= 5000 && score <= 6300 && !bulletPowerUpActive) {
+  if (score >= 1000 && score <= 1300 && !bulletPowerUpActive) {
     activateBulletPowerUp(); // Bullet yükseltmesini başlat
   }
 }

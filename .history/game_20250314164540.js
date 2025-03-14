@@ -368,15 +368,6 @@ function activateBulletPowerUp() {
     console.log("Bullet Power-Up Süresi Bitti!");
   }, 10000);
 }
-
-// Update score display
-function updateScore() {
-  document.getElementById('score').textContent = `Score: ${score}`;
-  if (score >= 5000 && score <= 6300 && !bulletPowerUpActive) {
-    activateBulletPowerUp(); // Bullet yükseltmesini başlat
-  }
-}
-
     // Remove enemy and bullet
     enemies.splice(i, 1);
     bullets.splice(j, 1);
@@ -470,6 +461,13 @@ function lifeUp() {
 }
 
 
+// Update score display
+function updateScore() {
+  document.getElementById('score').textContent = `Score: ${score}`;
+  if (score >= 100 && !bulletPowerUpActive) {
+    activateBulletPowerUp(); // Bullet yükseltmesini başlat
+  }
+}
 
 
 
